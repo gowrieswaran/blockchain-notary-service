@@ -1,6 +1,6 @@
 /**********************************************************************
-*** Blockchain Class for new BlockChain                           *****
-***********************************************************************/
+ *** Blockchain Class for new BlockChain                           *****
+ ***********************************************************************/
 
 const SHA256 = require("crypto-js/sha256");
 const LevelSandbox = require("./LevelSandbox.js");
@@ -10,8 +10,8 @@ const Block = require("./Block.js");
 let heightOfTheChain = 0;
 
 /**********************************************************************
-*** @constructor - BlockChain                                      ****
-***********************************************************************/
+ *** @constructor - BlockChain                                      ****
+ ***********************************************************************/
 
 class Blockchain {
   constructor() {
@@ -19,11 +19,10 @@ class Blockchain {
     this.generateGenesisBlock();
   }
 
-/**********************************************************************
-*** Method to create Genesis Block (always with height= 0)         ****
-***********************************************************************/
+  /**********************************************************************
+   *** Method to create Genesis Block (always with height= 0)         ****
+   ***********************************************************************/
   generateGenesisBlock() {
-
     this.getBlockHeight().then(height => {
       if (height === 0) {
         let genesisBlock = new Block.Block(
@@ -39,13 +38,12 @@ class Blockchain {
     });
   }
 
-/***********************************************************************
-*** Method to get block height(height of the blockchain)            ****
-*** @returns a Promise                                              ****
-************************************************************************/
+  /***********************************************************************
+   *** Method to get block height(height of the blockchain)            ****
+   *** @returns a Promise                                              ****
+   ************************************************************************/
 
   getBlockHeight() {
-
     let self = this;
     return new Promise((resolve, reject) => {
       self.bd
@@ -61,14 +59,13 @@ class Blockchain {
     });
   }
 
-/***********************************************************************
-*** Method to get block data by passing the block (height)          ****
-*** @param {height}                                                 ****
-*** @returns a Promise {Blockdata}                                  ****
-************************************************************************/
+  /***********************************************************************
+   *** Method to get block data by passing the block (height)          ****
+   *** @param {height}                                                 ****
+   *** @returns a Promise {Blockdata}                                  ****
+   ************************************************************************/
 
   getBlock(height) {
-
     let self = this;
     return new Promise((resolve, reject) => {
       self.bd
@@ -90,14 +87,13 @@ class Blockchain {
     });
   }
 
-/***********************************************************************
-*** Method to add block to the blockchain by passing the block      ****
-*** @param {block}                                                  ****
-*** @returns a Promise                                              ****
-************************************************************************/
+  /***********************************************************************
+   *** Method to add block to the blockchain by passing the block      ****
+   *** @param {block}                                                  ****
+   *** @returns a Promise                                              ****
+   ************************************************************************/
 
   addBlock(block) {
-
     let self = this;
     return new Promise((resolve, reject) => {
       self
@@ -133,11 +129,11 @@ class Blockchain {
     });
   }
 
-/***********************************************************************
-*** Method to validate block data by passing the block height       ****
-*** @param {height}                                                 ****
-*** @returns a Promise                                              ****
-************************************************************************/
+  /***********************************************************************
+   *** Method to validate block data by passing the block height       ****
+   *** @param {height}                                                 ****
+   *** @returns a Promise                                              ****
+   ************************************************************************/
 
   validateBlock(height) {
     let self = this;
@@ -155,7 +151,6 @@ class Blockchain {
           let validBlockHash = SHA256(JSON.stringify(block)).toString();
           //compare hash to validate block
           if (blockHash === validBlockHash) {
-
             /* console.log(
               "```````````````````````````````````````````````````````````````````"
             );
@@ -196,12 +191,12 @@ class Blockchain {
     });
   }
 
-/***********************************************************************
-*** Utility Method to modify block by passing the (height,block)    ****
-***------------------ONLY FOR TESTING PURPOSE---------------------- ****
-*** @param {height,block}                                           ****
-*** @returns a Promise                                              ****
-************************************************************************/
+  /***********************************************************************
+   *** Utility Method to modify block by passing the (height,block)    ****
+   ***------------------ONLY FOR TESTING PURPOSE---------------------- ****
+   *** @param {height,block}                                           ****
+   *** @returns a Promise                                              ****
+   ************************************************************************/
 
   _modifyBlock(height, block) {
     let self = this;
@@ -218,7 +213,7 @@ class Blockchain {
     });
   }
 
-/*************************************************************************
+  /*************************************************************************
 ***** Method to delete all the data in the database                   ****
 *****------------------ONLY FOR TESTING PURPOSE---------------------- ****
 ***** @returns a Promise                                              ****
@@ -250,11 +245,11 @@ class Blockchain {
       });
   } */
 
-/**************************************************************************
-*** Method to validate link between the blocks by passing block height ****
-**** @param {height}                                                 *******
-**** @returns a Promise                                              *******
-****************************************************************************/
+  /**************************************************************************
+   *** Method to validate link between the blocks by passing block height ****
+   **** @param {height}                                                 *******
+   **** @returns a Promise                                              *******
+   ****************************************************************************/
 
   validateBlockLink(height) {
     let self = this;
@@ -316,10 +311,10 @@ class Blockchain {
     });
   }
 
-/*************************************************************************
-***** Method to validate the entire BlockChain                        ****
-***** @returns a Promise                                              ****
-**************************************************************************/
+  /*************************************************************************
+   ***** Method to validate the entire BlockChain                        ****
+   ***** @returns a Promise                                              ****
+   **************************************************************************/
 
   validateBlockChain() {
     let self = this;
@@ -357,15 +352,14 @@ class Blockchain {
                 console.log(
                   "The Blockchain is Invalid because either the block(s) above has been tampered or the link has been broken \n"
                 );
-               }
-               else {
-                 console.log(
-                   "**************************************************************************************************"
-                 );
-                 console.log(
-                   "The Blockchain is Valid!!! - All the blocks and links between the blocks are validated successfully!!!\n"
-                 );
-               }
+              } else {
+                console.log(
+                  "**************************************************************************************************"
+                );
+                console.log(
+                  "The Blockchain is Valid!!! - All the blocks and links between the blocks are validated successfully!!!\n"
+                );
+              }
               resolve(values);
             })
             .catch(err => {
@@ -380,14 +374,48 @@ class Blockchain {
     });
   }
 
-/*************************************************************************
-***** Method to print entire block chain                              ****
-**************************************************************************/
+  /*************************************************************************
+   ***** Method to print entire block chain                              ****
+   **************************************************************************/
 
   printEntireDB() {
     this.bd.getAllBlocks();
   }
 
+  /* Function to get data from LevelDB using hash                 ****
+    @params { hash }                                              ****
+  */
+  getStarByHash(hash) {
+    let self = this;
+    let block = [];
+    return new Promise((resolve, reject) => {
+      self.bd
+        .getBlockByHash(hash)
+        .then(blockData => {
+          block = blockData;
+          resolve(block);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  getStarByAddress(address) {
+    let self = this;
+    let blocks = [];
+    return new Promise(function(resolve, reject) {
+      self.bd
+        .getBlockByWalletAddress(address)
+        .then(blockData => {
+          blocks = blockData;
+          resolve(blocks);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
 }
 
 module.exports.Blockchain = Blockchain;
