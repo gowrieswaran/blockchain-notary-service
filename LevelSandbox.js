@@ -1,8 +1,8 @@
 /**********************************************************************
-***  Persist data with LevelDB                                    *****
-***********************************************************************
-***  Learn more: level: https://github.com/Level/level            *****
-***********************************************************************/
+ ***  Persist data with LevelDB                                    *****
+ ***********************************************************************
+ ***  Learn more: level: https://github.com/Level/level            *****
+ ***********************************************************************/
 
 const level = require("level");
 //configured db object and set storage location
@@ -13,11 +13,11 @@ class LevelSandbox {
     this.db = level(chainDB);
   }
 
-/*********************************************************************
-***** Function to get data from LevelDB with key (promise)        ****
-***** @params {key}                                               ****
-***** @returns a Promises                                         ****
-**********************************************************************/
+  /*********************************************************************
+   ***** Function to get data from LevelDB with key (promise)        ****
+   ***** @params {key}                                               ****
+   ***** @returns a Promises                                         ****
+   **********************************************************************/
 
   getLevelDBData(key) {
     let self = this;
@@ -37,11 +37,11 @@ class LevelSandbox {
     });
   }
 
-/************************************************************************
-***** Function to add data to LevelDB with key and value (promise)   ****
-***** @params {key,value(block to be added to the db)}                ***
-***** @returns a Promise                                              ***
-*************************************************************************/
+  /************************************************************************
+   ***** Function to add data to LevelDB with key and value (promise)   ****
+   ***** @params {key,value(block to be added to the db)}                ***
+   ***** @returns a Promise                                              ***
+   *************************************************************************/
 
   addLevelDBData(key, value) {
     let self = this;
@@ -56,11 +56,11 @@ class LevelSandbox {
     });
   }
 
-/*************************************************************************
-***** Function to delete LevelDB by passing key                       ****
-*****------------------ONLY FOR TESTING PURPOSE---------------------- ****
-**** @returns a Promise                                               ****
-**************************************************************************/
+  /*************************************************************************
+   ***** Function to delete LevelDB by passing key                       ****
+   *****------------------ONLY FOR TESTING PURPOSE---------------------- ****
+   **** @returns a Promise                                               ****
+   **************************************************************************/
   /*
   delLevelDBData(key) {
     let self = this;
@@ -77,10 +77,10 @@ class LevelSandbox {
   }
 */
 
-/**********************************************************************
-*** Function to get the blockscount (height of the chain)          ****
-*** @returns a Promise                                             ****
-***********************************************************************/
+  /**********************************************************************
+   *** Function to get the blockscount (height of the chain)          ****
+   *** @returns a Promise                                             ****
+   ***********************************************************************/
 
   getBlocksCount() {
     let self = this;
@@ -102,14 +102,66 @@ class LevelSandbox {
     });
   }
 
-/************************************************************************
-***** Function to print all the data in LevelDB                      ****
-*************************************************************************/
+  /************************************************************************
+   ***** Function to print all the data in LevelDB                      ****
+   *************************************************************************/
   getAllBlocks() {
     let self = this;
     let count = 0;
     self.db.createValueStream().on("data", function(data) {
       console.log(JSON.parse(data));
+    });
+  }
+
+  /*********************************************************************
+   ***** Function to get data from LevelDB using hash                ****
+   ***** @params {hash}                                              ****
+   ***** @returns a Promise                                          ****
+   **********************************************************************/
+
+  getBlockByHash(hash) {
+    let self = this;
+    let block = null;
+    return new Promise(function(resolve, reject) {
+      self.db
+        .createReadStream()
+        .on("data", function(data) {
+          let dataObject = JSON.parse(data.value);
+          if (dataObject.hash === hash) {
+            block = dataObject;
+          }
+        })
+        .on("error", function(err) {
+          reject(err);
+        })
+        .on("close", function() {
+          resolve(block);
+        });
+    });
+  }
+  /*********************************************************************
+   ***** Function to get data from LevelDB using address             ****
+   ***** @params {address}                                           ****
+   ***** @returns a Promise                                          ****
+   **********************************************************************/
+  getBlockByWalletAddress(address) {
+    let self = this;
+    let block = [];
+    return new Promise(function(resolve, reject) {
+      self.db
+        .createReadStream()
+        .on("data", function(data) {
+          let dataObject = JSON.parse(data.value);
+          if (dataObject.body.address === address) {
+            block.push(dataObject);
+          }
+        })
+        .on("error", function(err) {
+          reject(err);
+        })
+        .on("close", function() {
+          resolve(block);
+        });
     });
   }
 }
