@@ -10,7 +10,7 @@ where signing and validation are key.
 
 ## About the Project
 
-A blockchain notary service API can be used to secure digital assets. The project will focus on building out the back end infrastructure with a pre-developed front end. You will learn how to encrypt and decrypt the target data (into a digest) and how to publicly prove who rightfully owns it. You will also configure your notary web service using a RESTful web client to post new blocks to the blockchain. Along the way, you will also explore how to handle the limitations of block size when handling digital data.
+A blockchain notary service API can be used to secure digital assets. The project will focus on how to encrypt and decrypt the target data (into a digest) and how to publicly prove who rightfully owns it. You will also configure your notary web service using a RESTful web client to post new blocks to the blockchain. Along the way, you will also explore how to handle the limitations of block size when handling digital data.
 
 In this project, you will build a Star Registry Service that allows users to claim ownership of their favorite star in the night sky.
 
