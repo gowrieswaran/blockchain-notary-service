@@ -138,7 +138,7 @@ function getAddrReqObject(address) {
 
 /*Encode a Message*/
 function encode(message) {
-  let encodedMsg = Buffer(message).toString("hex");
+  let encodedMsg = Buffer.from(message).toString("hex");
   return encodedMsg;
 }
 app.use(bodyParser.urlencoded({ extended: true }));
