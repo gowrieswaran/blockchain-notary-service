@@ -16,29 +16,29 @@ In this project, you will build a Star Registry Service that allows users to cla
 
 ## What will you need to do?
 
-###Create a Blockchain dataset that allow you to store a Star
-_ The application will persist the data (using LevelDB).
-_ The application will allow users to identify the Star data with the owner.
+### Create a Blockchain dataset that allow you to store a Star
+- The application will persist the data (using LevelDB).
+- The application will allow users to identify the Star data with the owner.
 
-###Create a Mempool component
-_ The mempool component will store temporal validation requests for 5 minutes (300 seconds).
-_ The mempool component will store temporal valid requests for 30 minutes (1800 seconds).
-\_ The mempool component will manage the validation time window.
+### Create a Mempool component
+- The mempool component will store temporal validation requests for 5 minutes (300 seconds).
+- The mempool component will store temporal valid requests for 30 minutes (1800 seconds).
+- The mempool component will manage the validation time window.
 
-###Create a REST API that allows users to interact with the application.
-\_The API will allow users to submit a validation request.
-\_The API will allow users to validate the request.
-\_The API will be able to encode and decode the star data.
-\_The API will allow be able to submit the Star data.
-\_The API will allow lookup of Stars by hash, wallet address, and height.
+### Create a REST API that allows users to interact with the application.
+- The API will allow users to submit a validation request.
+- The API will allow users to validate the request.
+- The API will be able to encode and decode the star data.
+- The API will allow be able to submit the Star data.
+- The API will allow lookup of Stars by hash, wallet address, and height.
 
-##Build your Project
+## Build your Project
 
 Understand the rubrics![https://review.udacity.com/#!/rubrics/2098/view]
 
-###Project Setup
+### Project Setup
 
-- Use the Private Blockchain application that you built and use in Project 2 and Project 3.
+Use the Private Blockchain application that you built and use in Project 2 and Project 3.
 
 ## Install Dependencies
 
@@ -74,15 +74,17 @@ I have used the Google Sky[https://www.google.com/sky/] for locating stars.
 
 Sequential diagram
 
-##Blockchain ID validation routine
+## Blockchain ID validation routine
 
 1. User submits a validation request - POST Endpoint
 
 Use the URL for the endpoint: http://localhost:8000/requestValidation
 
-Request : { address : 1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q}
+**Request** 
 
-Response :
+{ address : 1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q }
+
+**_Response_**
 
 ```
 {
@@ -92,18 +94,24 @@ Response :
     "validationWindow": 300
 }
 ```
+![Request Validation](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/requestValidation.PNG)
 
 2. User will send a request with signature - POST Endpoint
 
+Get the **Message** returned in the previous step and use your electrum wallet to sign that message.
+
+![Sign using Electrum wallet](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/sign-msg.PNG)
+
 Use the URL for the endpoint: http://localhost:8000/message-signature/validate
 
-Request :
-
+**Request**
+```
 {
 address :1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q
 signature: H2PgPVp+MxMUrcJhFHm+N5QX96WhiCfRpfVCg8X4wsvmUezMxC+rZgmk7oYXXoVpD5RCi1ig6IHu7hAGrHRUF1E=
 }
-Response :
+```
+**_Response_**
 
 ```
 {
@@ -117,6 +125,7 @@ Response :
     }
 }
 ```
+![Validate Sign](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/sign-validate.PNG)
 
 3. Star registration Endpoint
 
@@ -124,7 +133,7 @@ Web API POST endpoint with JSON response that submits the Star information to be
 
 Use the Url for the endpoint:http://localhost:8000/block
 
-Request :
+**Request**
 
 ```
 {
@@ -137,7 +146,7 @@ Request :
 }
 ```
 
-Response :
+**_Response_**
 
 ```
 {
@@ -156,6 +165,7 @@ Response :
     "previousBlockHash": "0c549e3dd3f262785a014d8ced9318db40b5252f7c5635b1b3ff0699bf676851"
 }
 ```
+![Register star data](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/add-star-to-db.PNG)
 
 ## Star Lookup
 
@@ -163,11 +173,11 @@ Response :
 
 Use the URL: http://localhost:8000/stars/hash:[HASH]
 
-Request:
+**Request**
 
 http://localhost:8000/stars/hash:21968303558f10c3f35bd4e4af769723c74f2ec4f4bcb6320435b5dd4c36c691
 
-Response:
+**_Response_**
 
 ```
 {
@@ -187,16 +197,17 @@ Response:
 }
 
 ```
+![Star lookup by hash](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/get-star-by-hash.PNG)
 
 2.Get Star block by wallet address (blockchain identity) with JSON response.
 
 Use the URL:http://localhost:8000/stars/address:[ADDRESS]
 
-Request:
+**Request**
 
 http://localhost:8000/stars/address:1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q
 
-Response :
+**_Response_**
 
 ```
 {
@@ -230,16 +241,17 @@ Response :
         "previousBlockHash": "31c8d12e6f94a410ea5a101e041b70bfe119f88b1c73fb368149e93d33f33949"
     }
 ```
+![Star lookup by address](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/get-star-by-address.PNG)
 
 3.Get star block by star block height with JSON response.
 
 Use the URL:http://localhost:8000/block/[HEIGHT]
 
-Request:
+**Request**
 
 http://localhost:8000/block/3
 
-Response :
+**_Response_**
 
 ```
 {
@@ -258,3 +270,5 @@ Response :
     "previousBlockHash": "820e54e137248d9c03d8c5dd4c750831b21dd0b2d741ef15613027450fe3c7d4"
 }
 ```
+![Star lookup by block height](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/get-star-by-height.PNG)
+
