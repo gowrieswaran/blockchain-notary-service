@@ -117,7 +117,7 @@ Use the URL for the endpoint: http://localhost:8000/requestValidation
 ```
 ![Request Validation](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/requestValidation.PNG)
 
-2. User will send a request with signature - POST Endpoint
+**2. User will send a request with signature - POST Endpoint**
 
 Get the **Message** returned in the previous step and use your electrum wallet to sign that message.
 
@@ -148,7 +148,18 @@ signature: H2PgPVp+MxMUrcJhFHm+N5QX96WhiCfRpfVCg8X4wsvmUezMxC+rZgmk7oYXXoVpD5RCi
 ```
 ![Validate Sign](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/sign-validate.PNG)
 
-3. Star registration Endpoint
+**Error Response**
+
+Resending the above request after the validation time
+
+```
+Status : 400 Bad Request
+
+Response : Send address for request validation
+```
+
+
+**3. Star registration Endpoint- POST Endpoint**
 
 Web API POST endpoint with JSON response that submits the Star information to be saved in the Blockchain.
 
@@ -188,9 +199,42 @@ Use the Url for the endpoint:http://localhost:8000/block
 ```
 ![Register star data](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/add-star-to-db.PNG)
 
+**Error Response** - If data passed is invalid
+```
+Request :
+{
+"address": "1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q",
+    "star": {
+            
+            "story": "Found star using https://www.google.com/sky/"
+        }
+}
+
+Status : 400 Bad Request
+
+Response : Not a valid star data
+```
+
+**Error Response** - If address not validated in the first two steps
+
+```
+Request:
+{
+"address": "1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q",
+    "star": {
+            "dec": "70° 11' 57.0",
+            "ra": "8h 39m 35.0s",
+            "story": "Found star using https://www.google.com/sky/"
+        }
+}
+
+Response : Not a Valid Signed Address
+
+Status : 400 Bad Request
+```
 ## Star Lookup
 
-1. Get Star block by hash with JSON response.
+**1. Get Star block by hash with JSON response - GET Endpoint**
 
 Use the URL: http://localhost:8000/stars/hash:[HASH]
 
@@ -220,7 +264,7 @@ http://localhost:8000/stars/hash:21968303558f10c3f35bd4e4af769723c74f2ec4f4bcb63
 ```
 ![Star lookup by hash](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/get-star-by-hash.PNG)
 
-2.Get Star block by wallet address (blockchain identity) with JSON response.
+**2.Get Star block by wallet address (blockchain identity) with JSON response - GET Endpoint **
 
 Use the URL:http://localhost:8000/stars/address:[ADDRESS]
 
@@ -264,7 +308,7 @@ http://localhost:8000/stars/address:1JY9vD6nD4K42XGQTkmTd7FEkdWmLD1o8Q
 ```
 ![Star lookup by address](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/get-star-by-address.PNG)
 
-3.Get star block by star block height with JSON response.
+**3.Get star block by star block height with JSON response - GET Endpoint**
 
 Use the URL:http://localhost:8000/block/[HEIGHT]
 
