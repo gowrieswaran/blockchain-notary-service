@@ -1,12 +1,8 @@
 # Blockchain-notary-service
 
-One of the most important features of a blockchain is that ensures data security is the ability for a transaction
-on the blockchain to be signed and validated. Given the distributed nature of blockchain, signing and
-validation are vital to securing information.
+One of the most important features of a blockchain is that ensures data security is the ability for a transaction on the blockchain to be signed and validated. Given the distributed nature of blockchain, signing and validation are vital to securing information.
 
-Data stored on a blockchain can vary from digital assets (e.g. documents, media) to copyrights and patent
-ownership. These pieces of data need to be reliably secured, and require a way to prove they exist—this is
-where signing and validation are key.
+Data stored on a blockchain can vary from digital assets (e.g. documents, media) to copyrights and patent ownership. These pieces of data need to be reliably secured, and require a way to prove they exist—this is where signing and validation are key.
 
 ## About the Project
 
@@ -34,11 +30,33 @@ In this project, you will build a Star Registry Service that allows users to cla
 
 ## Build your Project
 
-Understand the rubrics![https://review.udacity.com/#!/rubrics/2098/view]
+[Understand the rubrics](https://review.udacity.com/#!/rubrics/2098/view)
+
+## Star Coordinates
+
+Before building this service you'll need to understand a few details about how star data is represented. Understanding this will impact how you store and retrieve data on your private blockchain.
+
+Here is an example of how star coordinates are represented:
+
+```
+RA 13h 03m 33.35sec, Dec -49° 31’ 38.1” Mag 4.83 Cen
+```
+
+These coordinates are similar to latitude and longitude but instead relate to coordinates in the sky.
+
+### Resources for Discovering Stars
+
+I have used the [Google Sky](https://www.google.com/sky/) for locating stars.
+
+## Project Walkthrough
+
+Below is a sequence diagram that shows the flow of methods across the components - the user, the web API, the mempool, and the blockchain.
+
+![Sequential diagram](https://github.com/gowrieswaran/blockchain-notary-service/blob/master/screenshots/project4-workflow.png)
 
 ### Project Setup
 
-Use the Private Blockchain application that you built and use in Project 2 and Project 3.
+Use the Private Blockchain application that you built and use in [Project 2](https://github.com/gowrieswaran/private-blockchain) and [Project 3](https://github.com/gowrieswaran/RESTful-Web-API-with-Node.js-Framework)
 
 ## Install Dependencies
 
@@ -56,27 +74,30 @@ Set up a Node.js Project with the following dependencies:
  }
 ```
 
-## Star Coordinates
+## How to Run
 
-Before building this service you'll need to understand a few details about how star data is represented. Understanding this will impact how you store and retrieve data on your private blockchain.
+1. Clone/download the project repo. 
 
-Here is an example of how star coordinates are represented:
+2. In the command prompt type ``npm install``
 
+3. Make sure dependencies are installed and type ``node server.js`` in the command prompt and on successful launch, it displays the message below:
 ```
-RA 13h 03m 33.35sec, Dec -49° 31’ 38.1” Mag 4.83 Cen
-```
-
-These coordinates are similar to latitude and longitude but instead relate to coordinates in the sky.
-
-### Resources for Discovering Stars
-
-I have used the Google Sky[https://www.google.com/sky/] for locating stars.
-
-Sequential diagram
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Server Listening for port 8000..
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Access endpoints:
+ 1.http://localhost:8000/requestValidation -POST
+ 2.http://localhost:8000/message-signature/validate - POST
+ 3.http://localhost:8000/block -POST
+ 4.http://localhost:8000/stars/hash:[hash] -GET
+ 5.http://localhost:8000/stars/address:[address] - GET
+ 6.http://localhost:8000/block/:height -GET
+ 
+ ```
+ 
 ## Blockchain ID validation routine
 
-1. User submits a validation request - POST Endpoint
+**1. User submits a validation request - POST Endpoint**
 
 Use the URL for the endpoint: http://localhost:8000/requestValidation
 
